@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contacto | Punto Grafic JyD</title>
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="pagina-interior">
+
+    <header class="encabezado">
+
+        <nav class="menu">
+
+            <a href="index.html" class="logo" aria-label="Punto Grafic JyD, inicio">
+                <img class="logo-imagen" src="logo-punto-grafic.png" alt="Logo de Punto Grafic JyD" width="64" height="64">
+                <span class="logo-texto"><span class="marca-cian">Punto</span> <span class="marca-magenta">Grafic</span> <span class="marca-amarillo">JyD</span></span>
+            </a>
+
+            <ul class="menu-links" id="menu-links">
+
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+
+                <li>
+                    <a href="videos.html">Videos</a>
+                </li>
+
+                <li>
+                    <a href="contenido.html">Contenido</a>
+                </li>
+
+                <li>
+                    <a href="nosotros.html">Nosotros</a>
+                </li>
+
+                <li>
+                    <a href="contacto.html" aria-current="page">Contacto</a>
+                </li>
+
+            </ul>
+
+            <button class="menu-btn" type="button" aria-label="Abrir menú" aria-controls="menu-links" aria-expanded="false" onclick="mostrarMenu()">
+                ☰
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <main><section id="contacto" class="seccion contacto">
+
+            <div class="contenedor">
+
+                <p class="subtitulo">
+                    ESCRÍBENOS
+                </p>
+
+                <h2>
+                    Contacto
+                </h2>
+
+                <p class="descripcion">
+                    ¿Quieres comunicarte con nosotros?
+                </p>
+
+
+                
+<form id="contact-form">
+
+    <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        placeholder="Nombre"
+        required>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Correo electrónico"
+        required>
+
+    <input
+        type="text"
+        id="asunto"
+        name="asunto"
+        placeholder="Asunto"
+        required>
+
+    <textarea
+        id="mensaje"
+        name="mensaje"
+        placeholder="Escribe tu mensaje"
+        rows="5"
+        required></textarea>
+
+    <button
+        type="submit"
+        id="submit-btn"
+        class="boton">
+        Enviar Mensaje
+    </button>
+
+    <p id="status-message" aria-live="polite"></p>
+
+</form>
+
+
+            </div>
+
+        </section></main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Punto Grafic JyD. Todos los derechos reservados.
+        </p>
+
+    </footer>
+
+
+
+<footer>
+    <p>
+        © 2026 Punto Grafic JyD. Todos los derechos reservados.
+    </p>
+</footer>
+	
+	
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    const SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyUaetvXF40dlFWqCVGp8hjx_HlPY8s69rZSiWz01-ys9EMwsSFpqubPmHFOMU_xvSMLA/exec";
+
+    emailjs.init({
+        publicKey: "mMGnJJLfH1Yl60ftQ"
+    });
+
+    const form = document.getElementById("contact-form");
+    const statusMessage = document.getElementById("status-message");
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Enviando...";
+        statusMessage.style.color = "#f39c12";
+        statusMessage.textContent = "Enviando tu mensaje...";
+
+        const formData = {
+            nombre: document.getElementById("nombre").value,
+            email: document.getElementById("email").value,
+            asunto: document.getElementById("asunto").value,
+            mensaje: document.getElementById("mensaje").value
+        };
+
+        try {
+            await fetch(SHEET_WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=UTF-8"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            await emailjs.sendForm(
+                "service_sarh5zj",
+                "template_igdlxnb",
+                form
+            );
+
+            statusMessage.style.color = "#2ecc71";
+            statusMessage.textContent =
+                "¡Mensaje enviado correctamente! Gracias por contactarnos.";
+
+            form.reset();
+
+        } catch (error) {
+            console.error("Error al enviar:", error);
+
+            statusMessage.style.color = "#e74c3c";
+            statusMessage.textContent =
+                "No se pudo enviar el mensaje. Inténtalo nuevamente.";
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Enviar Mensaje";
+        }
+    });
+</script>
+
+
+</body>
+
+</html>
